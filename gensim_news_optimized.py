@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# ### TODOS 
+# ### TODOS
 # #1 probar a comprobar todas las noticias vs. cada uno de los diccionarios
 
 # In[1]:
@@ -9,7 +9,7 @@
 import gensim
 import pandas as pd
 import logging
-from IPython.core.display import display, HTML 
+from IPython.core.display import display, HTML
 logging.basicConfig(format='%(asctime)s : %(levelname)s : %(message)s', level=logging.INFO)
 
 
@@ -27,7 +27,7 @@ news = pd.read_csv("df_news5.csv")
 periodicos = ["EM", "EP", "ABC"]
 ls = {}
 for p in periodicos:
-    if p == "EM": 
+    if p == "EM":
         linkweb = "http://www.elmundo.es"
     elif p == "EP":
         linkweb = "http://www.elpais.com"
@@ -37,14 +37,11 @@ for p in periodicos:
     noticias = list(news[news.periodico == linkweb].noticia)
     links = list(news[news.periodico == linkweb].link)
     ls[p] = {"titulares":titulares, "noticias":noticias, "links":links, "docs":[], "linkweb":linkweb}
-    
+
 # limpia de textos + creacion del diccionario
 for p in periodicos:
     for s in ls[p]['noticias']: ls[p]['docs'].append(clean_sentence(s))
     ls[p]['dic'] = gensim.corpora.Dictionary(ls[p]['docs'])
-
-
-# In[5]:
 
 def build_todos(ls):
     noticias_todos = []
@@ -60,9 +57,6 @@ def build_todos(ls):
 
 dic_todos = build_todos(ls)
 corpus_todos = gensim.corpora.MmCorpus("./corpus.mm")
-
-
-# In[6]:
 
 base = "ABC"
 base2 = "EP"
@@ -100,17 +94,17 @@ for d in ls[comp]['docs']:
     sims = index[vec_lsi]
     sims = list(enumerate(sims))
     sims = sorted(sims, key=lambda t: -t[1])
-   
+
     sims2 = index2[tfidf[vec_lsi]]
     sims2 = list(enumerate(sims2))
     sims2 = sorted(sims2, key=lambda t: -t[1])
-    
+
     vec_bow = dic_to_use.doc2bow(ls[base]['docs'][sims[0][0]])
     vec_lsi = lsi[tfidf[vec_bow]]
     sims3 = index2[vec_lsi]
     sims3 = list(enumerate(sims3))
     sims3 = sorted(sims3, key=lambda t: -t[1])
-    
+
     #if(sims[0][1] > 0.9) or (sims2[0][1] > 0.88) or (sims3[0][1] > 0.88):
     print("---------- " + comp + " vs. " + base + ": " + str(sims[0][1])+" ----------" + comp + " vs. " + base2 + ": " + str(sims2[0][1]) + " ------------ " + base + " vs. " + base2 + ": " + str(sims3[0][1]))
     display(HTML(str(i+1)+". "+comp+": " + ls[comp]['titulares'][i]+ ": <a href='" + ls[comp]['links'][i]+"'>Link</a>"))
@@ -126,6 +120,3 @@ for d in ls[comp]['docs']:
 
 
 # In[ ]:
-
-
-

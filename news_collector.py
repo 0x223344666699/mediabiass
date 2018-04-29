@@ -7,13 +7,11 @@ from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
-
-# In[ ]:
-
 newspapers = ["http://www.elmundo.es", "http://www.elconfidencial.com", "http://www.abc.es", "http://www.elpais.com"]
 dic_news = {"periodico":[], "titular":[], "noticia":[], "link":[]}
 categories_to_avoid = ["summum/estilo", "/verne", "/eventos", "/icon", "/cincodias", "/futbol", "/elcomidista", "/retina", "/tecnologia","/motor", "/loc/", "/television", "opinion", "deportes", "video", "galeria", "multimedia", "/loc/famosos", "/estilo/gente", "vanitatis", "cultura", "/play/", "metropoli", "ciencia-y-salud", "salud", "viajes", "plan-b", "/f5/", "/papel/", "/vida-sana/"]
-old_df_news = pd.DataFrame(dic_news)#pd.read_csv("df_news5.csv")
+old_df_news = pd.DataFrame(dic_news)
+
 for np in newspapers:
     print("------ " + np + " -------")
     r = requests.get(np).text
@@ -52,7 +50,7 @@ for np in newspapers:
                         divn = soup_news.find("span", {"class":  "cuerpo-texto"})
                     if np == "http://www.pais.com":
                         divn = soup_news.find("div", {"itemprop":  "articleBody"})
-                        
+
                     if (divn is not None):
                         noticia = ""
                         for p in divn.find_all("p"):
@@ -65,7 +63,7 @@ for np in newspapers:
                             dic_news["noticia"].append(noticia)
                             dic_news["link"].append(href)
                             print("AÑADIENDO: " + href)
-                    else: 
+                    else:
                         print("DIVN IS NONE: " + href)
                 else:
                     print("YA PRESENTE: " + href)
@@ -104,6 +102,3 @@ new_df_news.to_csv("df_news4.csv", encoding="UTF-8", index=False)
 
 
 # In[ ]:
-
-
-
