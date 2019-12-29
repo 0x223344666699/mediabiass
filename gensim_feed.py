@@ -29,7 +29,7 @@ for periodico in periodicos:
     titulares = list(news[news.newspaper == periodico].titular)
     noticias = list(news[news.newspaper == periodico].noticia)
     links = list(news[news.newspaper == periodico].link)
-    ls[periodico] = {"titulares":titulares, "noticias":noticias, "links":links, "docs":[], "linkweb":linkweb}
+    ls[periodico] = {"titulares":titulares, "noticias":noticias, "links":links, "docs":[], "periodico":periodico}
 
 # limpia de textos + creacion del diccionario
 for periodico in periodicos:
