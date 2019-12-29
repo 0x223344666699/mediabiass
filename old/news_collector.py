@@ -6,8 +6,10 @@
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
+# In[]
 
-newspapers = ["http://www.elmundo.es", "http://www.elconfidencial.com", "http://www.abc.es", "http://www.elpais.com"]
+# newspapers = ["http://www.elmundo.es", "http://www.elconfidencial.com", "http://www.abc.es", "http://www.elpais.com"]
+newspapers = ["http://www.elmundo.es", "http://www.elpais.com"]
 dic_news = {"periodico":[], "titular":[], "noticia":[], "link":[]}
 categories_to_avoid = ["summum/estilo", "/verne", "/eventos", "/icon", "/cincodias", "/futbol", "/elcomidista", "/retina", "/tecnologia","/motor", "/loc/", "/television", "opinion", "deportes", "video", "galeria", "multimedia", "/loc/famosos", "/estilo/gente", "vanitatis", "cultura", "/play/", "metropoli", "ciencia-y-salud", "salud", "viajes", "plan-b", "/f5/", "/papel/", "/vida-sana/"]
 old_df_news = pd.DataFrame(dic_news)
@@ -89,7 +91,7 @@ new_df_news.noticia.apply(lambda x: print(re.findall("[a-zA-Z][a-zñ]*",str(x).r
 
 # In[52]:
 
-new_df_news = pd.read_csv("df_news4.csv")
+new_df_news = pd.read_csv("df_news.csv")
 print(new_df_news.shape)
 new_df_news = new_df_news[new_df_news['link'].apply(lambda x: "/xxx" not in x)]
 print(new_df_news.shape)
@@ -98,7 +100,7 @@ print(new_df_news.shape)
 # In[51]:
 
 new_df_news = new_df_news[["link", "noticia", "periodico", "titular"]]
-new_df_news.to_csv("df_news4.csv", encoding="UTF-8", index=False)
+new_df_news.to_csv("df_news.csv", encoding="UTF-8", index=False)
 
 
 # In[ ]:
